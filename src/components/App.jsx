@@ -71,7 +71,7 @@ const App = () => {
   const visibleContacts = getVisibleContacts();
 
   return (
-    <Router>
+    <Router basename="/goit-react-hw-08-phonebook">
       <AppContainer>
         <Navigation>
           <NavigationLink to="/contacts">Contacts</NavigationLink>

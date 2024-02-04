@@ -22,7 +22,7 @@ const LoginComponent = ({ onLoginSuccess }) => {
       // Викликаємо функцію колбека для успішного входу
       onLoginSuccess();
     } catch (error) {
-      console.error(error.response.data);
+      console.error(error.message);
     }
   };
 
