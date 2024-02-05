@@ -1,46 +1,53 @@
 // ContactList.js
-import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteContact } from '../../redux/operation';
 import styled from 'styled-components';
-import { deleteContact } from '../redux/contactsSlice';
+import { selectVisibleContacts } from '../../redux/selectors';
 
-const List = styled.ul`
+const ItemsList = styled.ul`
   list-style: none;
   padding: 0;
 `;
 
-const ListItem = styled.li`
+const ContactItem = styled.li`
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  margin-bottom: 10px;
+  align-items: center;
+  border-bottom: 1px solid #ccc;
+  padding: 10px;
 `;
 
-const Button = styled.button`
-  padding: 5px 8px;
-  font-size: 0.8em;
+const DeleteButton = styled.button`
+  background-color: #dc3545;
+  color: #fff;
+  border: none;
+  padding: 8px;
+  cursor: pointer;
+  border-radius: 4px;
+
+  &:hover {
+    background-color: #c82333;
+  }
 `;
 
-const ContactList = ({ contacts }) => {
+export const ContactList = () => {
   const dispatch = useDispatch();
-
-  const handleDelete = contactId => {
-    dispatch(deleteContact(contactId));
-  };
+  const visibleContact = useSelector(selectVisibleContacts);
 
   return (
-    <List>
-      {contacts.map(contact => (
-        <ListItem key={contact.id}>
-          <span>{contact.name}:</span>
-          <span>{contact.number}</span>
-          <Button type="button" onClick={() => handleDelete(contact.id)}>
+    <ItemsList>
+      {visibleContact.map(el => (
+        <ContactItem key={el.id}>
+          <span>{el.name}</span>
+          <span>{el.number}</span>
+          <DeleteButton
+            type="button"
+            onClick={() => dispatch(deleteContact(el.id))}
+          >
             Delete
-          </Button>
-        </ListItem>
+          </DeleteButton>
+        </ContactItem>
       ))}
-    </List>
+    </ItemsList>
   );
 };
-
-export default ContactList;
